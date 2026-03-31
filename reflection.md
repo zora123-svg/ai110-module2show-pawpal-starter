@@ -6,12 +6,15 @@
 
 - Briefly describe your initial UML design.
 - What classes did you include, and what responsibilities did you assign to each?
-Three core actions user is able to perform is to enter their infomation and pet information. The next one is that a user should be able to add/edit/delete tasks. And finally their should be a way to generate a daily schedule based off what the user enters. To go into more detail their should be a way to take in user's information like name, age, date of birth, and ect. But there also should be a way to take in the pet infomation like name, type of pet (dog,cat,ect...). Also you can include species if applicable. Then we move on to tasks. So a user should be able to create, update, and delete a task. To go deeper into this there could be a hierachy within task if user specifies it. Meaning some tasks are more important than others and somehow duration is going to fit within the tasks. Finally the daily schedule should have some contrainsts on it I'm not sure what constraints to add right now but I do know there should be a contraint.
+Four classes were identified for this system, each with a distinct responsibility.
 
-Class: Owner - Take in owner info, display it, update it.
-Class: Pets - Take in pet info, display it, update it.
-Class: Tasks - Basic crud operators and there should be a way for a user to specify the duration and day the task is on.
-Class: DailySchedule - It will take a task or tasks to generate a schedlue based on the user input. There should also be a way that a user can check of tasks within that daily schedule.
+Owner captures and manages the personal information of the app user — name, age, date of birth, email, and phone number. It also holds references to the owner's pets and schedules.
+
+Pet handles animal-specific information such as name, type, breed, and age. It maintains a link back to its owner via ownerId and follows the same enter, display, and update pattern as Owner.
+
+Task represents a single to-do item. It tracks the title, assigned day, duration, priority, and completion status. It also supports a parent-child hierarchy so tasks can be broken into subtasks, and covers full CRUD operations.
+
+DailySchedule takes a list of tasks and organizes them into a schedule for a specific date. It handles generating, adding, and removing tasks, marking tasks as complete, and calculating the total duration for the day.
 
 
 
@@ -19,6 +22,7 @@ Class: DailySchedule - It will take a task or tasks to generate a schedlue based
 
 - Did your design change during implementation?
 - If yes, describe at least one change and why you made it.
+Yes I added petId to Task and ownerID to daily schedule because those were missing relationships. I also changed the data type in checkOffTask(taskID) into a dictionary so that we have a faster look up time. I removed the redundant createtask because the construction in our dataclass handles it.
 
 ---
 
