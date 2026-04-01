@@ -56,6 +56,20 @@ WARNING: 'Morning Walk' (Buddy, 08:00-08:30) overlaps with 'Vet Check-up' (Buddy
 
 ---
 
+## Testing PawPal+
+
+Tests live in `tests/test_pawpal.py` and cover the five most critical scheduling behaviors.
+
+### Running the tests
+
+```bash
+python -m pytest tests/test_pawpal.py -v
+```
+
+### What is tested
+
+The tests cover five core behaviors. Checking off a task should mark it done and keep it that way — the first test makes sure it doesn't quietly reset. The second confirms that tasks added to a pet are actually saved and not silently dropped. From there, the focus shifts to scheduling: one test verifies that the daily view shows tasks in the order they happen rather than the order they were entered, and another checks that finishing a recurring task automatically queues a fresh copy for the next day so nothing slips through. Finally, there's a conflict test — if two tasks overlap, the app should catch it before it becomes the owner's problem.
+
 ## Getting started
 
 ### Setup
