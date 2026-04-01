@@ -33,12 +33,14 @@ Yes I added petId to Task and ownerID to daily schedule because those were missi
 - What constraints does your scheduler consider (for example: time, priority, preferences)?
 - How did you decide which constraints mattered most?
 
+The scheduler considers three constraints: task priority (HIGH/MEDIUM/LOW), a daily time budget, and day-of-week filtering for recurring tasks. Priority is the backbone — tasks are sorted most to least urgent before any time slots are assigned, so feeding and walking always land before optional grooming, just like a real owner would plan their morning. The time budget acts more like a warning flag than a hard limit; if the day looks overloaded, the progress bar surfaces that, but the scheduler won't silently drop tasks — a skipped feeding is a real problem, so the owner decides what gets cut. Day filtering just keeps things clean by hiding tasks that aren't due today rather than deferring them. Priority was treated as the most important constraint because it directly reflects what the owner cares about, while the other two are guardrails that keep the schedule realistic.
+
 **b. Tradeoffs**
 
 - Describe one tradeoff your scheduler makes.
 - Why is that tradeoff reasonable for this scenario?
 
----
+The tradeoff in `detectConflicts()` was simplicity over theoretical efficiency — it uses a nested loop (O(n²) worst-case) rather than a sweep-line algorithm, because a pet owner typically has 5–20 tasks a day where the difference is microseconds and the simpler code is easier to read and verify at a glance. For `get_conflict_warnings()`, the tradeoff was readability over brevity — a single list comprehension with an inline lambda was considered but rejected because the format string is complex enough that burying it in a lambda makes future edits risky. Instead, a named inner function `_fmt_slot()` was pulled out, removing the duplicated end-time calculation and keeping each line readable on its own. Two extra lines felt like a fair trade for something any contributor can update without mentally untangling a compound expression.
 
 ## 3. AI Collaboration
 
